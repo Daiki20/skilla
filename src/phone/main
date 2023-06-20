@@ -1,0 +1,34 @@
+import React from "react";
+import App from "../../App";
+
+
+function Phone (){
+    return(
+        <>
+      <aside>
+      <div>
+      <img src="./logo.png" alt="logo" id="logo" />
+
+
+      </div>
+      </aside>  
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        </>
+    )
+}
