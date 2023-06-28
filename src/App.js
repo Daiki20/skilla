@@ -7,6 +7,63 @@ import axios from 'axios';
 function App() {
 
   const [callList, setCallList] = useState([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchNumber, setSearchNumber] = useState('');
+  const [isEmployeeListOpen, setEmployeeListOpen] = useState(false);
+  const [employeeList, setEmployeeList] = useState([]);
+  const currentDate = new Date();
+
+// Форматируем дату в нужный формат
+const options = { weekday: 'long', day: 'numeric', month: 'short' };
+const formattedDate = currentDate.toLocaleDateString('ru-RU', options);
+
+// Находим элемент с id 'date'
+const dateElement = document.getElementById('date');
+
+  const toggleEmployeeList = async () => {
+    if (!isEmployeeListOpen) {
+      try {
+        const response = await axios.get('https://api.skilla.ru/partnership/getPersonsList', {
+          params: {
+            position: ["designer"],
+            is_blocked: 0
+          }
+        });
+
+        setEmployeeList(response.data);
+        setEmployeeListOpen(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setEmployeeListOpen(false);
+    }
+  };
+ 
+
+  const handleSearchClick = () => {
+    setIsSearchOpen(true);
+  };
+
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('https://api.skilla.ru/mango/searchCall', {
+        number: searchNumber,
+      }, {
+        headers: {
+          Authorization: 'Bearer testtoken', // Замените на ваш токен авторизации
+        },
+      });
+
+      setCallList(response.data.results);
+      setIsSearchOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,6 +129,7 @@ function App() {
       <div id="nav4">    
       <img src="./Vector-3.png" alt="vector" id="vector3" />
       <li>Звонки</li>
+      
       </div>
 
       <div id="nav5">    
@@ -126,23 +184,32 @@ function App() {
       <div id='header'>
       <header>
         <div id='date'>
-        <div><p>Среда, 13окт</p></div>
+        <div><p>{formattedDate}</p></div>
         </div>
 
       <div id='procent'>
+        <div id='df'>
         <div id='procent1'>
         <div><p>Новые звонки</p></div>
-        <div><p>20 из 30 шт</p></div>
+        <div><p id='color1'>20 из 30 шт</p></div>
         </div>
-
+        <div id='procent10'><div id='procent11'></div></div>
+          </div>
+          
+          
+          <div id='df'>
         <div id='procent1'>
         <div><p> Качество разговоров</p></div>
-        <div><p>40%</p></div>
-        </div>
+        <div><p id='color2'>40%</p></div>
+        </div><div id='procent12'><div id='procent13'></div></div></div>
 
+
+        <div id='df'>
         <div id='procent1'>
         <div><p> Конверсия заказов </p></div>
-        <div><p>67%</p></div>
+        <div><p id='color3'>67%</p></div>
+        </div>
+        <div id='procent14'><div id='procent15'></div></div>
         </div>
       </div>
 
@@ -182,21 +249,38 @@ function App() {
 
         <div id='filter'>
 
-            <div id='search-phone'>
-             <img src="./search.png" alt="search" />
-              <p>Поиск по звонкам</p>
-            </div>
+        <div id='search-phone'>
+        {!isSearchOpen && (
+          <img src="./search.png" alt="search" onClick={handleSearchClick} />
+        )}
+        {isSearchOpen && (
+          <form onSubmit={handleSearchSubmit}>
+            <input type="text" value={searchNumber} onChange={(e) => setSearchNumber(e.target.value)} />
+            
+          </form>
+        )}
+        <p id='search1'>Поиск по звонкам</p>
+      </div>
 
             <div id='open-filter'>
                 <div id='one-filter'>
                   <p>Все типы</p>
                   <img src="./galka.png" alt="open" id='galka'/>
                 </div>
-
-                <div id='two-filter'>
-                  <p>Все сотрудники</p>
-                  <img src="./galka.png" alt="open" id='galka'/>
-                </div>
+                <div>
+      <div id='two-filter' onClick={toggleEmployeeList}>
+        <p>Все сотрудники</p>
+        <img src="./galka.png" alt="open" id='galka' />
+      </div>
+      
+      {isEmployeeListOpen && (
+        <ul>
+          {employeeList.map(employee => (
+            <li key={employee.id}>{employee.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
 
                 <div id='three-filter'>
                   <p>Все звонки</p>
@@ -223,57 +307,94 @@ function App() {
 
           <div id='contacts'>
             
-              <div id='info'><div id='type'>
-                  <div id='info1'> 
-                      <p>Тип</p>
-                  </div>
+              <div id='info'>
+                
+                <div id='type'>
 
-                  <div id='info2'> 
-                      <p>Время</p>
-                  </div>
-
-                  <div id='info3'> 
-                      <p>Сотрудник</p>
-                  </div>
-
-                  <div id='info4'> 
-                      <p>Звонок</p>
-                  </div>
-                  </div>
-                    <div id='type2'>
-                  <div id='info5'> 
-                      <p>Источник</p>
-                  </div>
-
-                  <div id='info6'> 
-                      <p>Оценка</p>
-                  </div>
-                  </div>
-
-                  <div id='info7'> 
-                      <p>Длительность</p>
-                  </div>
-
-              </div>
-
-          </div>
-
-          <div id="list">
-      {callList.map((call, index) => (
-        
-        <div key={call.id} id='pers'>
-          <img  id='top' src='./top.png'/>
-          <div id='call-date'> {formatTime(call.date)}</div>
+                <div id="list">
+    <div id='headers'>
+      <div id='info1'>
+        <p>Тип</p>
+      </div>
+      <div id='info2'>
+        <p>Время</p>
+      </div>
+      <div id='info3'>
+        <p>Сотрудник</p>
+      </div>
+      <div id='info4'>
+        <p>Звонок</p>
+      </div>
+      <div id='info5'>
+        <p>Источник</p>
+      </div>
+      <div id='info6'>
+        <p>Оценка</p>
+      </div>
+      <div id='info7'>
+        <p>Длительность</p>
+      </div>
+    </div>
+    {callList.map((call, index) => (
+      <div key={call.id} id='pers'>
+        <div id='info1'>
+        {call.status === 'Не дозвонился' ? (
+    <img id='top' src='./top2.png' alt="Недозвон" />
+  ) : (
+    <img id='top' src='./top.png' alt="Дозвон" />
+  )}
+        </div>
+        <div id='info2'>
+          <div id='call-date'>{formatTime(call.date)}</div>
+        </div>
+        <div id='info3'>
           <img id='avatarr' src={call.person_avatar} alt="Аватар" />
-          <div> {call.from_number}</div>
+        </div>
+        <div id='info4'>
+          <div>{call.from_number}</div>
+        </div>
+        <div id='info5'>
           <div id='sourse'>{call.source}</div>
+        </div>
+        <div id='info6'>
+       
+        </div>
+        <div id='info7'>
           <div>{formatDuration(call.time)}</div>
         </div>
-      ))}
+      </div>
+    ))}
+   </div>
+   </div>
+        </div>  
+          </div>
+          </div>
+          </div>
+  
+                  
+    
+    
+
+                 
+
+                  
+
+                  
+                  
+                    
+
+                  
+                  
+
+                  
+
+              
+
+          
+
+         
    
-  </div>
-    </div>
-    </div>
+  
     
   );
 }

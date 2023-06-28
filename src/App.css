@@ -63,6 +63,9 @@ margin-top: 20px;
 margin-left: 0;
 height: 30px;
 }
+#nav4{
+  width: 55%;
+}
 #nav9{
   width: 70%;
 }
@@ -288,8 +291,13 @@ header{
 #search-phone{
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 400px;
   font-size: 14px;
+  
+}
+#search1{
+  width: 500px;
+  margin-left: 20px;
 }
 #search-phone img{
   width: 16px;
@@ -338,7 +346,7 @@ header{
 #pers{
   display: flex;
   justify-content: space-between;
-  
+  width: 100%;
 }
 #sourse{
   width: 0px;
@@ -349,14 +357,38 @@ header{
   margin-right: -170px;
 }
 #type{
-  width: 350px;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  
+}
+#type p{
+  font-size: 14px;
+}
+#pers{
+  font-size: 15px;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  margin-top: 10px;
+  padding-bottom: 10px;
+
+}
+#pers p{
+  font-size: 14px;
+}
+#headers{
   display: flex;
   justify-content: space-between;
 }
-#type2{
- display: flex;
- justify-content: space-between;
- width: 250px;
+#info1, #info2, #info3, #info4,#info5, #info6, #info7{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 50%;
+  
+}
+
+#list{
+  
 }
 
 #call-date{
@@ -392,6 +424,65 @@ header{
   font-size: 14px;
   color: #666;
 }
-#width-two{
-  
+
+#procent10{
+  background-color:  #DEE6F5;
+  margin-top: -7px;
+  width: 100%;
+  height: 6px;
+  border-radius: 12px;
+}
+#procent11{
+  background-color: #28A879;
+  width: 33%;
+  height: 6px;
+  border-radius: 12px;
+}
+
+#procent12{
+  background-color:  #DEE6F5;
+  margin-top: -7px;
+  width: 100%;
+  height: 6px;
+  border-radius: 12px;
+}
+#procent13{
+  background-color: #FFD500;
+  width: 40%;
+  height: 6px;
+  border-radius: 12px;
+}
+
+#procent14{
+  background-color:  #DEE6F5;
+  margin-top: -7px;
+  width: 100%;
+  height: 6px;
+  border-radius: 12px;
+}
+#procent15{
+  background-color: #EA1A4F;
+  width: 67%;
+  height: 6px;
+  border-radius: 12px;
+}
+
+#color1, #color2, #color3{
+  margin-left: 5px;
+}
+#color1{
+  color:#28A879 ;
+}
+#color2{
+  color:#FFD500 ;
+}
+#color3{
+  color:#EA1A4F ;
+}
+
+input{
+  border-radius: 50px;
+  border: 1px solid #002CFB;
+  padding: 5px;
+ margin-top: 5%;
 }
